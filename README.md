@@ -1,4 +1,5 @@
 # heroku-funcional
-https://expresspr.herokuapp.com
+https://expresspr.herokuapp.com/mascotas
 
-Archivos EJS renderizados a Html, trabaje el despliegue, la view es basico solo para probar su funcionamiento
+
+Crud, ejs, express
