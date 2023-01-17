@@ -1,0 +1,35 @@
+<%- include('template/cabecera',{tituloWeb:'pagina mascotas'}); %>
+
+<div class="container">
+    <a href="/mascotas/crear" class="btn btn-primary btn-lg btn-block my-4"
+    >
+    Crear mascota
+    </a>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+            <% if (arrayMascotas.length >0) { %>
+                <% arrayMascotas.forEach(mascotas => { %> 
+                    <tr>
+                        <th scope="row"><%= mascotas.id %></th>
+                        <td> <%= mascotas.nombre %> </td>
+                        <td> <%= mascotas.descripcion %></td>
+                        <td><a class="btn btn-warning btn-sm" href="mascotas/<%=mascotas.id%>"> editar</a>
+                            </td>
+                      </tr>
+                  <% }); %> 
+              <% } %>
+        </tbody>
+      </table>
+</div>
+
+    <%- include('template/footer',{
+        footerWeb: 'Footer pagina index'
+    })%>

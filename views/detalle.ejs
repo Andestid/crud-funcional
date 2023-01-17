@@ -1,0 +1,85 @@
+<%- include('template/cabecera',{tituloWeb:'Detalle mascota'}); %>
+<div class="container">
+    <h1>Detalle</h1>
+    <% if (error) { %>
+     <p> <%= mensaje %> </p> 
+     <a href="/mascotas" class="btn btn-primary btn-block">Volver a mascotas</a>
+    <% } else{%>
+      <form id="formularioeditar">
+        <input id="nombreinput" type="text" name="nombre" class="form-control my-2" value="<%= mascota.nombre %>">
+        <input id="descripcioninput" type="text" name="descripcion" class="form-control my-2" value="<%= mascota.descripcion %>">
+        <button id="btnformulario" class="btn btn-primary btn-block my-2" type="submit" data-id="<%= mascota.id %>">Editar valores</button>
+      </form>
+      <hr>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Acción</th>
+              </tr>
+            </thead>
+            <tbody>             
+                        <tr>
+                            <th scope="row"><%= mascota.id %></th>
+                            <td> <%= mascota.nombre %> </td>
+                            <td> <%= mascota.descripcion %></td>
+                            <td><button type="button" class="btn btn-primary">Si</button>
+                                </td>
+                          </tr>                 
+            </tbody>
+          </table>
+          <btn id="btnEliminar" class="btn btn-danger btn-block" data-id="<%= mascota.id %>">Eliminar</btn>
+          <a href="/mascotas" class="btn btn-primary btn-block" >Volver a mascotas</a>
+        <% }%>
+</div>
+    <%- include('template/footer',{footerWeb: 'Footer pagina index'})%>
+
+    <script>
+      const btneliminar = document.querySelector('#btnEliminar');
+      const id = btneliminar.dataset.id;
+      btneliminar.addEventListener('click', async () => {
+        console.log(id);
+        try {
+         const data = await fetch(`/mascotas/${id}`,{
+          method: 'delete'
+         })
+         const respuesta = await data.json()
+         console.log(respuesta);
+         if(respuesta.estado){
+          alert(respuesta.mensaje)
+          window.location.href="/mascotas"  
+         } else {
+          console.log(res)
+         }
+        } catch (error) {
+          console.log('error', error);
+        }
+      })
+    const editar = document.querySelector('#formularioeditar')
+    editar.addEventListener('submit', async(e) => {
+      e.preventDefault()
+      const nombre = formularioeditar.elements['nombre'].value
+      const descripcion = document.querySelector('#descripcioninput').value
+      const id = btnformulario.dataset.id;
+      console.log(id);
+      try{
+        const data = await fetch(`/mascotas/${id}`,{
+          method: 'put',
+          headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+          body: JSON.stringify({nombre,descripcion})
+        })
+        const res = await data.json()
+        console.log(res)
+        alert(res.mensaje)
+        window.location.href="/mascotas/<%=mascota.id%>"
+      }catch(error){
+        console.log(error)
+        alert(res.mensaje)
+      }
+       })
+    </script>
